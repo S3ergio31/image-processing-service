@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  go-app:
+    container_name: go-libvips
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: go run main.go
+    environment:
+      - CGO_ENABLED=1
+    depends_on: []
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
