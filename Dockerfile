@@ -16,3 +16,5 @@ RUN go mod download
 COPY . .
 
 CMD ["go", "run", "main.go"]
+
+RUN echo "alias tests='go test ./tests/... -count=1'" >> ~/.bashrc

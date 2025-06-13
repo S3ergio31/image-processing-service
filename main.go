@@ -1,16 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/gin-gonic/gin"
-	"github.com/h2non/bimg"
 )
 
 func main() {
 	router := gin.Default()
-	router.GET("/test", func(c *gin.Context) {
+	/*router.GET("/test", func(c *gin.Context) {
 		buffer, err := bimg.Read("image.jpg")
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
@@ -31,6 +27,15 @@ func main() {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
-	})
+	})*/
+	//router.POST("/register", register.RegisterController)
+	//router.POST("/login", login.LoginController)
+
+	/*images := router.Group("/images")
+	images.POST("/", uploader.UploadController)
+	images.POST("/:id/transform", transformer.TransformController)
+	images.GET("/:id", Finder.FindController)
+	images.GET("/", Paginator.PaginateController)*/
+
 	router.Run()
 }
