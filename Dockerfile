@@ -3,6 +3,7 @@ FROM golang:1.24.2
 RUN apt-get update && apt-get install -y \
     build-essential \
     libvips-dev \
+    libsqlite3-dev \
     pkg-config \
     git \
  && rm -rf /var/lib/apt/lists/*
@@ -15,6 +16,6 @@ RUN go mod download
 
 COPY . .
 
-CMD ["go", "run", "main.go"]
-
 RUN echo "alias tests='go test ./tests/... -count=1'" >> ~/.bashrc
+
+CMD ["go", "run", "main.go"]

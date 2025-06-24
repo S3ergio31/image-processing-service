@@ -9,15 +9,23 @@ import (
 
 func RegisterController(c *gin.Context) {
 	var user RegisterBody
-	c.Bind(&user)
-	register := application.Register{Repository: NewInMemoryUserRepository()}
-	err := register.Save(user.Username, user.Password)
+	c.BindJSON(&user)
+	register := application.Register{Repository: NewSqliteUserRepository()}
+	errors := register.Save(user.Username, user.Password)
 
-	if err != nil {
+	if len(errors) != 0 {
 		c.JSON(http.StatusConflict, gin.H{
-			"message": err.Error(),
+			"errors": ErrorsToStrings(errors),
 		})
 	}
 
 	c.Writer.WriteHeader(http.StatusCreated)
+}
+
+func ErrorsToStrings(errs []error) []string {
+	out := make([]string, len(errs))
+	for i, e := range errs {
+		out[i] = e.Error()
+	}
+	return out
 }

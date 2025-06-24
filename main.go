@@ -1,11 +1,8 @@
 package main
 
-import (
-	"github.com/gin-gonic/gin"
-)
+import setup "github.com/S3ergio31/image-processing-service/init"
 
 func main() {
-	router := gin.Default()
 	/*router.GET("/test", func(c *gin.Context) {
 		buffer, err := bimg.Read("image.jpg")
 		if err != nil {
@@ -37,5 +34,5 @@ func main() {
 	images.GET("/:id", Finder.FindController)
 	images.GET("/", Paginator.PaginateController)*/
 
-	router.Run()
+	setup.Router().Run()
 }
