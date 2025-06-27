@@ -5,18 +5,18 @@ import (
 )
 
 type Auth struct {
-	Repository   domain.UserRepository
-	TokenService domain.TokenService
+	domain.UserRepository
+	domain.TokenService
 }
 
-func (r Auth) Login(username string, password string) (string, error) {
-	user, notFoundErr := r.Repository.FindByUsername(username)
+func (a Auth) Login(username string, password string) (string, error) {
+	user, notFoundErr := a.FindByUsername(username)
 
 	if notFoundErr != nil || !user.Check(password) {
 		return "", domain.InvalidCredentials{}
 	}
 
-	token, err := r.TokenService.Generate(username)
+	token, err := a.Generate(username)
 
 	if err != nil {
 		return "", domain.InvalidTokenGeneration{Err: err}
@@ -24,7 +24,7 @@ func (r Auth) Login(username string, password string) (string, error) {
 
 	user.SetToken(token)
 
-	r.Repository.Save(user)
+	a.Save(user)
 
 	return token, nil
 

@@ -8,18 +8,18 @@ import (
 )
 
 type sqliteUserRepository struct {
-	db *gorm.DB
+	*gorm.DB
 }
 
 func (repository sqliteUserRepository) Save(user domain.User) {
-	repository.db.Model(&entities.User{}).
+	repository.Model(&entities.User{}).
 		Where("username = ?", user.Username()).
 		Update("token", user.Token())
 }
 
 func (repository sqliteUserRepository) FindByUsername(username string) (domain.User, *domain.UserNotFound) {
 	var userEntity entities.User
-	repository.db.First(&userEntity, "username = ?", username)
+	repository.First(&userEntity, "username = ?", username)
 
 	if userEntity.Username != username {
 		return nil, &domain.UserNotFound{}
@@ -37,7 +37,7 @@ func NewSqliteUserRepository() sqliteUserRepository {
 		return *repository
 	}
 
-	repository = &sqliteUserRepository{db: database.GetDatabase()}
+	repository = &sqliteUserRepository{DB: database.GetDatabase()}
 
 	return *repository
 }

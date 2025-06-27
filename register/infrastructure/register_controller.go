@@ -10,8 +10,8 @@ import (
 func RegisterController(c *gin.Context) {
 	var user RegisterBody
 	c.BindJSON(&user)
-	register := application.Register{Repository: NewSqliteUserRepository()}
-	errors := register.Save(user.Username, user.Password)
+	register := application.Register{UserRepository: NewSqliteUserRepository()}
+	errors := register.Store(user.Username, user.Password)
 
 	if len(errors) != 0 {
 		c.JSON(http.StatusConflict, gin.H{

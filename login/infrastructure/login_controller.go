@@ -14,8 +14,8 @@ func LoginController(c *gin.Context) {
 	c.BindJSON(&login)
 
 	auth := application.Auth{
-		Repository:   NewSqliteUserRepository(),
-		TokenService: domain.TokenService{Secret: os.Getenv("JWT_SECRET")},
+		UserRepository: NewSqliteUserRepository(),
+		TokenService:   domain.TokenService{Secret: os.Getenv("JWT_SECRET")},
 	}
 
 	token, err := auth.Login(login.Username, login.Password)

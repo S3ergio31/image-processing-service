@@ -40,10 +40,10 @@ func assertHasErrors(t *testing.T, errors []error) {
 
 func TestRegisterUser(t *testing.T) {
 	register := application.Register{
-		Repository: mockUserRepository(map[string]string{"AnotherUser": "Sergio1234!"}),
+		UserRepository: mockUserRepository(map[string]string{"AnotherUser": "Sergio1234!"}),
 	}
 
-	errors := register.Save("Test", "Sergio1234!")
+	errors := register.Store("Test", "Sergio1234!")
 
 	if len(errors) != 0 {
 		t.Errorf("Expected 0 errors, given: %d - result: %s", len(errors), errors)
@@ -52,10 +52,10 @@ func TestRegisterUser(t *testing.T) {
 
 func TestUserAlreadyExists(t *testing.T) {
 	register := application.Register{
-		Repository: mockUserRepository(map[string]string{"Test": "Sergio1234!"}),
+		UserRepository: mockUserRepository(map[string]string{"Test": "Sergio1234!"}),
 	}
 
-	errors := register.Save("Test", "Sergio1234!")
+	errors := register.Store("Test", "Sergio1234!")
 
 	assertHasErrors(t, errors)
 
@@ -66,10 +66,10 @@ func TestUserAlreadyExists(t *testing.T) {
 
 func TestInvalidUsername(t *testing.T) {
 	register := application.Register{
-		Repository: mockUserRepository(map[string]string{}),
+		UserRepository: mockUserRepository(map[string]string{}),
 	}
 
-	errors := register.Save("", "Sergio1234!")
+	errors := register.Store("", "Sergio1234!")
 
 	assertHasErrors(t, errors)
 
@@ -80,10 +80,10 @@ func TestInvalidUsername(t *testing.T) {
 
 func TestInvalidPassword(t *testing.T) {
 	register := application.Register{
-		Repository: mockUserRepository(map[string]string{}),
+		UserRepository: mockUserRepository(map[string]string{}),
 	}
 
-	errors := register.Save("Test", "Sergio1234")
+	errors := register.Store("Test", "Sergio1234")
 
 	assertHasErrors(t, errors)
 

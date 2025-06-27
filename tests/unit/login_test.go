@@ -38,8 +38,8 @@ func mockLoginUserRepository(users map[string]string) LoginUserRepository {
 
 func auth() application.Auth {
 	return application.Auth{
-		Repository:   mockLoginUserRepository(map[string]string{"Test": "$2a$10$idfO21767DpicmjfFMBVoOUaufaZztlqZcbABAOE0gTHnPH0b151a"}),
-		TokenService: domain.TokenService{Secret: "test_secret"},
+		UserRepository: mockLoginUserRepository(map[string]string{"Test": "$2a$10$idfO21767DpicmjfFMBVoOUaufaZztlqZcbABAOE0gTHnPH0b151a"}),
+		TokenService:   domain.TokenService{Secret: "test_secret"},
 	}
 }
 

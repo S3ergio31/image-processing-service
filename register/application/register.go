@@ -5,11 +5,11 @@ import (
 )
 
 type Register struct {
-	Repository domain.UserRepository
+	domain.UserRepository
 }
 
-func (r Register) Save(username string, password string) []error {
-	if r.Repository.UsedUsername(username) {
+func (r Register) Store(username string, password string) []error {
+	if r.UsedUsername(username) {
 		return []error{domain.UserAlreadyExists{}}
 	}
 
@@ -19,7 +19,7 @@ func (r Register) Save(username string, password string) []error {
 		return errors
 	}
 
-	r.Repository.Save(userToRegister)
+	r.Save(userToRegister)
 
 	return []error{}
 }

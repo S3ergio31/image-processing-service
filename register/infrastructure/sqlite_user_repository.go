@@ -10,11 +10,11 @@ import (
 )
 
 type sqliteUserRepository struct {
-	db *gorm.DB
+	*gorm.DB
 }
 
 func (repository sqliteUserRepository) Save(user domain.User) {
-	repository.db.Create(&entities.User{
+	repository.Create(&entities.User{
 		Username: user.Username(),
 		Password: user.Password(),
 	})
@@ -22,7 +22,7 @@ func (repository sqliteUserRepository) Save(user domain.User) {
 
 func (repository sqliteUserRepository) UsedUsername(username string) bool {
 	var userEntity entities.User
-	repository.db.First(&userEntity, "username = ?", username)
+	repository.First(&userEntity, "username = ?", username)
 
 	log.Println("UsedUsername", username, userEntity.Username)
 	return userEntity.Username == username
@@ -35,7 +35,7 @@ func NewSqliteUserRepository() sqliteUserRepository {
 		return *repository
 	}
 
-	repository = &sqliteUserRepository{db: database.GetDatabase()}
+	repository = &sqliteUserRepository{DB: database.GetDatabase()}
 
 	return *repository
 }
