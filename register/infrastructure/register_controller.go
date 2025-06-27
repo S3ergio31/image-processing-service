@@ -17,6 +17,7 @@ func RegisterController(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{
 			"errors": ErrorsToStrings(errors),
 		})
+		return
 	}
 
 	c.Writer.WriteHeader(http.StatusCreated)

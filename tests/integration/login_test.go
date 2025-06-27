@@ -22,14 +22,14 @@ func TestLogin(t *testing.T) {
 
 	database.GetDatabase().Create(&entities.User{
 		Username: "Test",
-		Password: "$2a$10$yBnuy0d8yWNZI9tKaW7cZ.bYqdi2FYAPuZnZtEk9HEYz8L9sQaAwK",
+		Password: "$2a$10$idfO21767DpicmjfFMBVoOUaufaZztlqZcbABAOE0gTHnPH0b151a",
 	})
 
 	w := httptest.NewRecorder()
 
 	loginBody := infrastructure.LoginBody{
 		Username: "Test",
-		Password: "Sergio31!",
+		Password: "Test12345*",
 	}
 
 	loginJson, _ := json.Marshal(loginBody)

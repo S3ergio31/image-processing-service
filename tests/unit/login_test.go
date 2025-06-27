@@ -38,7 +38,7 @@ func mockLoginUserRepository(users map[string]string) LoginUserRepository {
 
 func auth() application.Auth {
 	return application.Auth{
-		Repository:   mockLoginUserRepository(map[string]string{"Test": "$2a$10$yBnuy0d8yWNZI9tKaW7cZ.bYqdi2FYAPuZnZtEk9HEYz8L9sQaAwK"}),
+		Repository:   mockLoginUserRepository(map[string]string{"Test": "$2a$10$idfO21767DpicmjfFMBVoOUaufaZztlqZcbABAOE0gTHnPH0b151a"}),
 		TokenService: domain.TokenService{Secret: "test_secret"},
 	}
 }
@@ -51,7 +51,7 @@ func assertInvalidCredentials(t *testing.T, err error) {
 
 func TestLoginUser(t *testing.T) {
 
-	token, err := auth().Login("Test", "Sergio31!")
+	token, err := auth().Login("Test", "Test12345*")
 
 	if token == "" {
 		t.Errorf("Expected a valid token, given: %s", err)
@@ -59,7 +59,7 @@ func TestLoginUser(t *testing.T) {
 }
 
 func TestLoginInvalidUsername(t *testing.T) {
-	_, err := auth().Login("Test1", "Sergio31!")
+	_, err := auth().Login("Test1", "Test12345*")
 
 	assertInvalidCredentials(t, err)
 }
