@@ -1,6 +1,9 @@
 package main
 
-import setup "github.com/S3ergio31/image-processing-service/init"
+import (
+	setup "github.com/S3ergio31/image-processing-service/init"
+	"github.com/S3ergio31/image-processing-service/shared/infrastructure/database"
+)
 
 func main() {
 	/*router.GET("/test", func(c *gin.Context) {
@@ -25,14 +28,13 @@ func main() {
 			"message": "pong",
 		})
 	})*/
-	//router.POST("/register", register.RegisterController)
-	//router.POST("/login", login.LoginController)
 
 	/*images := router.Group("/images")
 	images.POST("/", uploader.UploadController)
 	images.POST("/:id/transform", transformer.TransformController)
 	images.GET("/:id", Finder.FindController)
 	images.GET("/", Paginator.PaginateController)*/
-
+	database.GetDatabase()
+	setup.LoadEnv(".env")
 	setup.Router().Run()
 }
