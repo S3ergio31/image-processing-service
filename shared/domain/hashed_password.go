@@ -25,9 +25,3 @@ func (p HashedPassword) Value() (string, error) {
 func BuildHashedPassword(value string) HashedPassword {
 	return HashedPassword{value: value}
 }
-
-/*func (p HashedPassword) Check(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(p.value), []byte(password))
-
-	return err == nil
-}*/
