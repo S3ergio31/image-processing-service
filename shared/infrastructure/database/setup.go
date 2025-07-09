@@ -3,12 +3,26 @@ package database
 import (
 	"log"
 
-	"github.com/S3ergio31/image-processing-service/shared/infrastructure/database/entities"
+	models "github.com/S3ergio31/image-processing-service/shared/infrastructure/database/entities"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 var _db *gorm.DB
+var entities []interface{}
+
+func getEntities() []interface{} {
+	if entities != nil {
+		return entities
+	}
+
+	entities = []interface{}{
+		&models.User{},
+		&models.Image{},
+	}
+
+	return entities
+}
 
 func GetDatabase() *gorm.DB {
 	if _db != nil {
@@ -23,7 +37,7 @@ func GetDatabase() *gorm.DB {
 
 	log.Println("database: test.db loaded")
 
-	db.AutoMigrate(&entities.User{})
+	db.AutoMigrate(getEntities()...)
 
 	_db = db
 
@@ -31,6 +45,6 @@ func GetDatabase() *gorm.DB {
 }
 
 func Refresh() {
-	GetDatabase().Migrator().DropTable(&entities.User{})
-	GetDatabase().AutoMigrate(&entities.User{})
+	GetDatabase().Migrator().DropTable(getEntities()...)
+	GetDatabase().AutoMigrate(getEntities()...)
 }
