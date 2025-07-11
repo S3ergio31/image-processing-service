@@ -24,6 +24,7 @@ func (u *Uploader) Upload(uploadImage domain.UploadImage) []error {
 		Username: image.Username(),
 		Name:     image.Name(),
 		Path:     image.Path(),
+		Type:     image.Type(),
 	})
 
 	return errors

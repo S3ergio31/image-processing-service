@@ -6,6 +6,7 @@ import (
 
 const (
 	ImageUploaded = iota
+	ImageTransformed
 )
 
 type Event interface{}

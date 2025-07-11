@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/S3ergio31/image-processing-service/shared/domain"
 	"github.com/google/uuid"
@@ -20,6 +21,7 @@ type Image interface {
 	Name() string
 	Content() []byte
 	Path() string
+	Type() string
 }
 
 type image struct {
@@ -38,7 +40,7 @@ func (i image) Username() string {
 }
 
 func (i image) Name() string {
-	return i.name
+	return strings.Split(i.name, ".")[0]
 }
 
 func (i image) Content() []byte {
@@ -46,7 +48,11 @@ func (i image) Content() []byte {
 }
 
 func (i image) Path() string {
-	return fmt.Sprintf("images/%s/%s_%s", i.username, i.uuid, i.name)
+	return fmt.Sprintf("images/%s/uploads/%s_%s.%s", i.username, i.uuid, i.Name(), i.Type())
+}
+
+func (i image) Type() string {
+	return strings.Split(i.name, ".")[1]
 }
 
 func NewImage(uploadImage UploadImage) (Image, []error) {

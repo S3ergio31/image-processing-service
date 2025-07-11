@@ -16,9 +16,11 @@ func (repository sqliteRegisterImageRepository) Save(event events.ImageUploadedE
 	repository.First(&user, "username = ?", event.Username)
 
 	repository.Create(&entities.Image{
+		Uuid: event.Uuid,
 		Name: event.Name,
 		Path: event.Path,
 		User: user,
+		Type: event.Type,
 	})
 }
 

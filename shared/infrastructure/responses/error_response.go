@@ -6,6 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func WriteNotFoundRequestResponse(errors []error, c *gin.Context) {
+	writeErrorResponse(errors, c, http.StatusNotFound)
+}
+
 func WriteConflictResponse(errors []error, c *gin.Context) {
 	writeErrorResponse(errors, c, http.StatusConflict)
 }

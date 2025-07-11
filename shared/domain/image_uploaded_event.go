@@ -5,4 +5,5 @@ type ImageUploadedEvent struct {
 	Username string
 	Name     string
 	Path     string
+	Type     string
 }
