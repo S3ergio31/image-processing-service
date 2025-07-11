@@ -5,6 +5,7 @@ import (
 
 	login "github.com/S3ergio31/image-processing-service/login/infrastructure"
 	register "github.com/S3ergio31/image-processing-service/register/infrastructure"
+	transform "github.com/S3ergio31/image-processing-service/transform/infrastructure"
 	upload "github.com/S3ergio31/image-processing-service/upload/infrastructure"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -18,6 +19,9 @@ func Router() *gin.Engine {
 	images := router.Group("/images", login.Authenticate)
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
 	images.POST("/", upload.UploadController)
+	images.POST("/:id/transform", transform.TransformController)
+	images.GET("/:id", func(ctx *gin.Context) {})
+	images.GET("/", func(ctx *gin.Context) {})
 
 	return router
 }
