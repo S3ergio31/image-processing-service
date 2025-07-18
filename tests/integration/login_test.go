@@ -18,7 +18,7 @@ import (
 func TestLogin(t *testing.T) {
 	router := setup.Router()
 	database.Refresh()
-	setup.LoadEnv(".env.testing")
+	setup.LoadEnv("testdata/.env.testing")
 
 	database.GetDatabase().Create(&entities.User{
 		Username: "Test",

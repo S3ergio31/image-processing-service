@@ -23,7 +23,7 @@ import (
 func TestTransform(t *testing.T) {
 	router := setup.Router()
 	database.Refresh()
-	setup.LoadEnv(".env.testing")
+	setup.LoadEnv("testdata/.env.testing")
 	imageUuid := "e9c1a020-7077-49e3-a217-72c395d371fc"
 	username := "Test"
 	password := "Test12345*"
@@ -38,7 +38,7 @@ func TestTransform(t *testing.T) {
 		Uuid: imageUuid,
 		Type: "jpg",
 		Name: "image",
-		Path: "image.jpg",
+		Path: "testdata/image.jpg",
 		User: user,
 	})
 
