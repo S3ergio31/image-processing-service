@@ -6,6 +6,7 @@ import (
 	login "github.com/S3ergio31/image-processing-service/login/infrastructure"
 	register "github.com/S3ergio31/image-processing-service/register/infrastructure"
 	events "github.com/S3ergio31/image-processing-service/shared/domain"
+	shared "github.com/S3ergio31/image-processing-service/shared/infrastructure"
 	transform "github.com/S3ergio31/image-processing-service/transform/infrastructure"
 	application_upload "github.com/S3ergio31/image-processing-service/upload/application"
 	"github.com/S3ergio31/image-processing-service/upload/infrastructure"
@@ -19,10 +20,10 @@ func Router() *gin.Engine {
 	router.POST("/register", register.RegisterController)
 	router.POST("/login", login.LoginController)
 
-	images := router.Group("/images", login.Authenticate)
+	images := router.Group("/images", shared.Authenticate)
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
 	images.POST("/", upload.UploadController)
-	images.POST("/:id/transform", transform.TransformController)
+	images.POST("/:id/transform", shared.RateLimiter(5), transform.TransformController)
 	images.GET("/:id", func(ctx *gin.Context) {})
 	images.GET("/", func(ctx *gin.Context) {})
 
