@@ -63,7 +63,7 @@ func (r TransformImageRepository) Find(uuid string, username string) (domain.Ima
 func TestTransformOk(t *testing.T) {
 	eventBus := events.New()
 
-	eventBus.Subscribe(events.ImageUploaded, func(e events.Event) {
+	eventBus.Subscribe(events.ImageTransformed, func(e events.Event) {
 		if _, ok := e.(events.ImageTransformedEvent); !ok {
 			t.Errorf("event ImageTransformedEvent not fired")
 		}
