@@ -1,4 +1,4 @@
 /images
 test.db
 .env
-tests/integration/testdata/*
+tests/integration/images
