@@ -3,6 +3,7 @@ package setup
 import (
 	"log"
 
+	find "github.com/S3ergio31/image-processing-service/find/infrastructure"
 	login "github.com/S3ergio31/image-processing-service/login/infrastructure"
 	register "github.com/S3ergio31/image-processing-service/register/infrastructure"
 	events "github.com/S3ergio31/image-processing-service/shared/domain"
@@ -24,7 +25,7 @@ func Router() *gin.Engine {
 	router.MaxMultipartMemory = 8 << 20 // 8 MiB
 	images.POST("/", upload.UploadController)
 	images.POST("/:id/transform", shared.RateLimiter(5), transform.TransformController)
-	images.GET("/:id", func(ctx *gin.Context) {})
+	images.GET("/:id", find.FinderController)
 	images.GET("/", func(ctx *gin.Context) {})
 
 	return router
