@@ -12,7 +12,7 @@ type Transformer struct {
 	*events.EventBus
 }
 
-func (t Transformer) Transform(transformations *domain.Transformations) error {
+func (t Transformer) Transform(transformations *domain.Transformations) (*domain.Transformation, error) {
 	transformers := []domain.Transformer{
 		domain.Croper{},
 		domain.Formater{},
@@ -28,28 +28,30 @@ func (t Transformer) Transform(transformations *domain.Transformations) error {
 	image, err := t.Find(transformations.ImageUuid, transformations.Username)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	content, imageStorageError := t.Get(image.Path())
 
 	if imageStorageError != nil {
-		return imageStorageError
+		return nil, imageStorageError
 	}
 
 	result := chain.Transform(transformations, content)
 
-	imageSaveError := t.Storage(domain.Transformation{
+	transformation := domain.Transformation{
 		Transformations: transformations,
 		Image:           image,
 		Content:         result,
-	})
+	}
+
+	imageSaveError := t.Storage(transformation)
 
 	if imageSaveError != nil {
-		return imageSaveError
+		return nil, imageSaveError
 	}
 
 	t.Publish(events.ImageTransformed, events.ImageTransformedEvent{})
 
-	return nil
+	return &transformation, nil
 }

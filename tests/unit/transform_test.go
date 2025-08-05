@@ -114,7 +114,7 @@ func TestImageNotFound(t *testing.T) {
 	imageUuid := "e9c1a020-7077-49e3-a217-72c395d371fc"
 	username := "Test"
 
-	err := application.Transformer{
+	_, err := application.Transformer{
 		ImageEditor:     ImageEditor{},
 		ImageStorage:    ImageStorage{},
 		ImageRepository: TransformImageRepository{},
@@ -161,7 +161,7 @@ func TestCannotRetrieveImageFromStorage(t *testing.T) {
 		name,
 	)
 
-	err := application.Transformer{
+	_, err := application.Transformer{
 		ImageEditor:     ImageEditor{},
 		ImageStorage:    ImageStorage{getError: true},
 		ImageRepository: TransformImageRepository{image: &image},
@@ -208,7 +208,7 @@ func TestCannotSaveImageToStorage(t *testing.T) {
 		name,
 	)
 
-	err := application.Transformer{
+	_, err := application.Transformer{
 		ImageEditor:     ImageEditor{},
 		ImageStorage:    ImageStorage{getError: false, storageError: true},
 		ImageRepository: TransformImageRepository{image: &image},
