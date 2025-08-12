@@ -5,6 +5,7 @@ import (
 
 	find "github.com/S3ergio31/image-processing-service/find/infrastructure"
 	login "github.com/S3ergio31/image-processing-service/login/infrastructure"
+	pagination "github.com/S3ergio31/image-processing-service/paginate/infrastructure"
 	register "github.com/S3ergio31/image-processing-service/register/infrastructure"
 	events "github.com/S3ergio31/image-processing-service/shared/domain"
 	shared "github.com/S3ergio31/image-processing-service/shared/infrastructure"
@@ -26,7 +27,7 @@ func Router() *gin.Engine {
 	images.POST("/", upload.UploadController)
 	images.POST("/:id/transform", shared.RateLimiter(5), transform.TransformController)
 	images.GET("/:id", find.FinderController)
-	images.GET("/", func(ctx *gin.Context) {})
+	images.GET("", pagination.PaginateController)
 
 	return router
 }
