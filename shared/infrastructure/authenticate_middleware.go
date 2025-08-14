@@ -6,13 +6,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/S3ergio31/image-processing-service/login/domain"
+	"github.com/S3ergio31/image-processing-service/login/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
 func Authenticate(c *gin.Context) {
 	bearerToken := c.GetHeader("Authorization")
-	tokenValidator := domain.TokenValidator{Secret: os.Getenv("JWT_SECRET")}
+	tokenValidator := infrastructure.GolangJwtTokenValidator{}
+	secret := os.Getenv("JWT_SECRET")
 
 	if !strings.HasPrefix(bearerToken, "Bearer ") {
 		log.Println("Invalid Authorization header")
@@ -22,12 +23,12 @@ func Authenticate(c *gin.Context) {
 
 	token := bearerToken[7:]
 
-	if !tokenValidator.IsValid(token) {
+	if !tokenValidator.IsValid(secret, token) {
 		unauthorized(c)
 		return
 	}
 
-	c.Set("username", tokenValidator.Username(token))
+	c.Set("username", tokenValidator.Username(secret, token))
 
 	c.Next()
 }

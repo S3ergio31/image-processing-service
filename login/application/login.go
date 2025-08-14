@@ -7,6 +7,7 @@ import (
 type Auth struct {
 	domain.UserRepository
 	domain.TokenService
+	Secret string
 }
 
 func (a Auth) Login(username string, password string) (string, error) {
@@ -16,7 +17,7 @@ func (a Auth) Login(username string, password string) (string, error) {
 		return "", domain.InvalidCredentials{}
 	}
 
-	token, err := a.Generate(username)
+	token, err := a.Generate(a.Secret, username)
 
 	if err != nil {
 		return "", domain.InvalidTokenGeneration{Err: err}

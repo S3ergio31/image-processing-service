@@ -13,7 +13,6 @@ import (
 
 	setup "github.com/S3ergio31/image-processing-service/init"
 	"github.com/S3ergio31/image-processing-service/login/application"
-	"github.com/S3ergio31/image-processing-service/login/domain"
 	login "github.com/S3ergio31/image-processing-service/login/infrastructure"
 	"github.com/S3ergio31/image-processing-service/shared/infrastructure/database"
 	"github.com/S3ergio31/image-processing-service/shared/infrastructure/database/entities"
@@ -36,7 +35,8 @@ func TestUploadImage(t *testing.T) {
 
 	auth := application.Auth{
 		UserRepository: login.NewSqliteUserRepository(),
-		TokenService:   domain.TokenService{Secret: os.Getenv("JWT_SECRET")},
+		TokenService:   login.GolangJwtTokenService{},
+		Secret:         os.Getenv("JWT_SECRET"),
 	}
 
 	token, _ := auth.Login(username, password)

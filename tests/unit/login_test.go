@@ -25,6 +25,14 @@ func (u LoginUserRepository) FindByUsername(username string) (domain.User, *doma
 	return user, nil
 }
 
+type MockTokenService struct {
+	token string
+}
+
+func (m MockTokenService) Generate(secret string, username string) (string, error) {
+	return m.token, nil
+}
+
 func mockLoginUserRepository(users map[string]string) LoginUserRepository {
 	userEntities := make(map[string]domain.User, 0)
 
@@ -39,7 +47,7 @@ func mockLoginUserRepository(users map[string]string) LoginUserRepository {
 func auth() application.Auth {
 	return application.Auth{
 		UserRepository: mockLoginUserRepository(map[string]string{"Test": "$2a$10$idfO21767DpicmjfFMBVoOUaufaZztlqZcbABAOE0gTHnPH0b151a"}),
-		TokenService:   domain.TokenService{Secret: "test_secret"},
+		TokenService:   MockTokenService{token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"},
 	}
 }
 

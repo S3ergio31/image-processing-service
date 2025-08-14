@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/S3ergio31/image-processing-service/login/application"
-	"github.com/S3ergio31/image-processing-service/login/domain"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +14,8 @@ func LoginController(c *gin.Context) {
 
 	auth := application.Auth{
 		UserRepository: NewSqliteUserRepository(),
-		TokenService:   domain.TokenService{Secret: os.Getenv("JWT_SECRET")},
+		TokenService:   GolangJwtTokenService{},
+		Secret:         os.Getenv("JWT_SECRET"),
 	}
 
 	token, err := auth.Login(login.Username, login.Password)
