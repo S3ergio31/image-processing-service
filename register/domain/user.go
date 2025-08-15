@@ -22,9 +22,9 @@ func (u user) Password() string {
 	return u.password
 }
 
-func NewUser(username string, password string) (User, []error) {
+func NewUser(username string, password string, hasher Hasher) (User, []error) {
 	errors := []error{}
-	hashedPassword, hashedPasswordErr := Password{value: password}.Value()
+	hashedPassword, hashedPasswordErr := Password{value: password, Hasher: hasher}.Value()
 	validUsername, usernameErr := domain.BuildUsername(username).Value()
 	hashedPassword, passwordErr := domain.BuildHashedPassword(hashedPassword).Value()
 

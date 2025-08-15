@@ -3,11 +3,10 @@ package domain
 import (
 	"log"
 	"regexp"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Password struct {
+	Hasher
 	value string
 }
 
@@ -16,7 +15,7 @@ func (p Password) Value() (string, error) {
 		return "", InvalidPassword{}
 	}
 
-	hash, err := p.hash()
+	hash, err := p.Hash(p.value)
 
 	if err != nil {
 		log.Println("Password.Value", err)
@@ -36,14 +35,4 @@ func (p Password) isValid() bool {
 	hasSpecialChar := regexp.MustCompile(`[!@#\$%\^&\*\(\)_\+\-=\[\]\{\}\\|;:'",.<>\/?]`).MatchString(p.value)
 
 	return hasMayus && hasNumber && hasSpecialChar
-}
-
-func (p Password) hash() (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(p.value), bcrypt.DefaultCost)
-
-	if err != nil {
-		return "", err
-	}
-
-	return string(hashedPassword), nil
 }

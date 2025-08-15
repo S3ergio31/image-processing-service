@@ -6,6 +6,7 @@ import (
 
 type Register struct {
 	domain.UserRepository
+	domain.Hasher
 }
 
 func (r Register) Store(username string, password string) []error {
@@ -13,7 +14,7 @@ func (r Register) Store(username string, password string) []error {
 		return []error{domain.UserAlreadyExists{}}
 	}
 
-	userToRegister, errors := domain.NewUser(username, password)
+	userToRegister, errors := domain.NewUser(username, password, r.Hasher)
 
 	if len(errors) != 0 {
 		return errors

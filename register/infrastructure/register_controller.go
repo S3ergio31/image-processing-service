@@ -10,7 +10,10 @@ import (
 func RegisterController(c *gin.Context) {
 	var user RegisterBody
 	c.BindJSON(&user)
-	register := application.Register{UserRepository: NewSqliteUserRepository()}
+	register := application.Register{
+		UserRepository: NewSqliteUserRepository(),
+		Hasher:         BcryptHasher{},
+	}
 	errors := register.Store(user.Username, user.Password)
 
 	if len(errors) != 0 {

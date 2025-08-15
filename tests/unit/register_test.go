@@ -21,11 +21,18 @@ func (u UserRepository) UsedUsername(username string) bool {
 	return ok
 }
 
+type MockHasher struct {
+}
+
+func (m MockHasher) Hash(value string) (string, error) {
+	return "$2a$10$idfO21767DpicmjfFMBVoOUaufaZztlqZcbABAOE0gTHnPH0b151a", nil
+}
+
 func mockUserRepository(users map[string]string) UserRepository {
 	userEntities := make(map[string]domain.User, 0)
 
 	for username, password := range users {
-		userEntity, _ := domain.NewUser(username, password)
+		userEntity, _ := domain.NewUser(username, password, MockHasher{})
 		userEntities[username] = userEntity
 	}
 
@@ -41,6 +48,7 @@ func assertHasErrors(t *testing.T, errors []error) {
 func TestRegisterUser(t *testing.T) {
 	register := application.Register{
 		UserRepository: mockUserRepository(map[string]string{"AnotherUser": "Sergio1234!"}),
+		Hasher:         MockHasher{},
 	}
 
 	errors := register.Store("Test", "Sergio1234!")
@@ -53,6 +61,7 @@ func TestRegisterUser(t *testing.T) {
 func TestUserAlreadyExists(t *testing.T) {
 	register := application.Register{
 		UserRepository: mockUserRepository(map[string]string{"Test": "Sergio1234!"}),
+		Hasher:         MockHasher{},
 	}
 
 	errors := register.Store("Test", "Sergio1234!")
@@ -67,6 +76,7 @@ func TestUserAlreadyExists(t *testing.T) {
 func TestInvalidUsername(t *testing.T) {
 	register := application.Register{
 		UserRepository: mockUserRepository(map[string]string{}),
+		Hasher:         MockHasher{},
 	}
 
 	errors := register.Store("", "Sergio1234!")
@@ -81,6 +91,7 @@ func TestInvalidUsername(t *testing.T) {
 func TestInvalidPassword(t *testing.T) {
 	register := application.Register{
 		UserRepository: mockUserRepository(map[string]string{}),
+		Hasher:         MockHasher{},
 	}
 
 	errors := register.Store("Test", "Sergio1234")
