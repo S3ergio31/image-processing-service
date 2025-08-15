@@ -2,24 +2,23 @@ package domain
 
 import (
 	"github.com/S3ergio31/image-processing-service/shared/domain"
-	"github.com/google/uuid"
 )
 
 type Image interface {
-	Uuid() uuid.UUID
+	Uuid() string
 	Name() string
 	Path() string
 	Type() string
 }
 
 type image struct {
-	uuid      uuid.UUID
+	uuid      string
 	name      string
 	imageType string
 	path      string
 }
 
-func (i image) Uuid() uuid.UUID {
+func (i image) Uuid() string {
 	return i.uuid
 }
 
@@ -37,7 +36,7 @@ func (i image) Type() string {
 
 func NewImage(id string, path string, name string, imageType string) (Image, []error) {
 	errors := []error{}
-	uuid, uuidErr := uuid.Parse(id)
+	uuid, uuidErr := domain.BuildUuid(id).Value()
 	imagePath, pathErr := domain.BuildFilePath(path).Value()
 	imageName, nameErr := domain.BuildImageName(name).Value()
 	imageType, typeErr := domain.BuildImageType(imageType).Value()

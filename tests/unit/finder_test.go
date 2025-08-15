@@ -6,7 +6,6 @@ import (
 
 	"github.com/S3ergio31/image-processing-service/find/application"
 	"github.com/S3ergio31/image-processing-service/find/domain"
-	"github.com/google/uuid"
 )
 
 type FindImageRepository struct {
@@ -27,7 +26,7 @@ func (u FindImageRepository) FindByUsername(username string, uuid string) (domai
 func TestFindImage(t *testing.T) {
 	username := "test"
 	imageName := "image"
-	imageUuid := uuid.NewString()
+	imageUuid := "8e64791a-a861-4e0c-b6d0-1c216c08cb74"
 	imageType := "png"
 	finder := application.Finder{
 		ImageRepository: FindImageRepository{
@@ -47,7 +46,7 @@ func TestFindImage(t *testing.T) {
 
 func TestImageCannotBeNotFound(t *testing.T) {
 	username := "test"
-	imageUuid := uuid.NewString()
+	imageUuid := "8e64791a-a861-4e0c-b6d0-1c216c08cb74"
 	finder := application.Finder{
 		ImageRepository: FindImageRepository{NotFound: true},
 	}

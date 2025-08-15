@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/S3ergio31/image-processing-service/shared/domain"
-	"github.com/google/uuid"
 )
 
 type UploadImage struct {
@@ -16,7 +15,7 @@ type UploadImage struct {
 }
 
 type Image interface {
-	Uuid() uuid.UUID
+	Uuid() string
 	Username() string
 	Name() string
 	Content() []byte
@@ -25,13 +24,13 @@ type Image interface {
 }
 
 type image struct {
-	uuid     uuid.UUID
+	uuid     string
 	username string
 	name     string
 	content  []byte
 }
 
-func (i image) Uuid() uuid.UUID {
+func (i image) Uuid() string {
 	return i.uuid
 }
 
@@ -59,7 +58,7 @@ func NewImage(uploadImage UploadImage) (Image, []error) {
 	errors := []error{}
 	username, usernameErr := domain.BuildUsername(uploadImage.Username).Value()
 	imageName, imageNameErr := BuildImageName(uploadImage.Name).Value()
-	uuid, uuidErr := uuid.Parse(uploadImage.Uuid)
+	uuid, uuidErr := domain.BuildUuid(uploadImage.Uuid).Value()
 	content, contentErr := BuildImageContent(uploadImage.Content).Value()
 
 	if usernameErr != nil {

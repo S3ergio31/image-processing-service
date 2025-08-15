@@ -50,7 +50,7 @@ func TestPaginateImages(t *testing.T) {
 
 		images := paginator.Paginate(imagePagination)
 
-		if images[0].Uuid().String() != imagesUuid[page] {
+		if images[0].Uuid() != imagesUuid[page] {
 			t.Errorf("expected image=%s current=%s images=%s", imagesUuid[page], images[0].Uuid(), images)
 		}
 	}

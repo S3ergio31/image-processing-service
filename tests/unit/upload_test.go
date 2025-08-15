@@ -6,7 +6,6 @@ import (
 	events "github.com/S3ergio31/image-processing-service/shared/domain"
 	"github.com/S3ergio31/image-processing-service/upload/application"
 	"github.com/S3ergio31/image-processing-service/upload/domain"
-	"github.com/google/uuid"
 )
 
 type ImageRepository struct{}
@@ -28,7 +27,7 @@ func TestUploadImage(t *testing.T) {
 	}
 
 	err := uploader.Upload(domain.UploadImage{
-		Uuid:     uuid.NewString(),
+		Uuid:     "8e64791a-a861-4e0c-b6d0-1c216c08cb74",
 		Username: "Test",
 		Name:     "test.png",
 		Content:  make([]byte, 1),

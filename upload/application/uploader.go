@@ -20,7 +20,7 @@ func (u *Uploader) Upload(uploadImage domain.UploadImage) []error {
 	u.Save(image)
 
 	u.Publish(events.ImageUploaded, events.ImageUploadedEvent{
-		Uuid:     image.Uuid().String(),
+		Uuid:     image.Uuid(),
 		Username: image.Username(),
 		Name:     image.Name(),
 		Path:     image.Path(),
