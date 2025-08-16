@@ -25,7 +25,7 @@ func (repository sqliteUserRepository) FindByUsername(username string) (domain.U
 		return nil, &domain.UserNotFound{}
 	}
 
-	user, _ := domain.NewUser(userEntity.Username, userEntity.Password)
+	user, _ := domain.NewUser(userEntity.Username, userEntity.Password, BcryptHasher{})
 
 	return user, nil
 }

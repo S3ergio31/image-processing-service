@@ -3,8 +3,7 @@ package domain
 import (
 	"errors"
 	"log"
-
-	"golang.org/x/crypto/bcrypt"
+	"regexp"
 )
 
 type HashedPassword struct {
@@ -12,11 +11,12 @@ type HashedPassword struct {
 }
 
 func (p HashedPassword) Value() (string, error) {
-	_, err := bcrypt.Cost([]byte(p.value))
+	regex := regexp.MustCompile(`^\$2[abxy]\$\d{2}\$[./A-Za-z0-9]{22}[./A-Za-z0-9]{31}$`)
 
-	if err != nil {
+	if !regex.MatchString(p.value) {
+		err := "invalid hashed password"
 		log.Println("HashedPassword.Value", err)
-		return "", errors.New("invalid hashed password")
+		return "", errors.New(err)
 	}
 
 	return p.value, nil

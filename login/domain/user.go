@@ -31,11 +31,12 @@ func (u user) Token() string {
 	return u.token
 }
 
-func NewUser(username string, hashedPassword string) (User, []error) {
+func NewUser(username string, hashedPassword string, hasher Hasher) (User, []error) {
 	errors := []error{}
 
 	hashedPasswordValueObject := HashedPassword{
 		HashedPassword: domain.BuildHashedPassword(hashedPassword),
+		Hasher:         hasher,
 	}
 
 	validUsername, usernameErr := domain.BuildUsername(username).Value()
